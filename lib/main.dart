@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical/screen/home.dart';
+import 'package:medical/screen/rate.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home: RateScreen(),
     );
   }
 }
