@@ -1,7 +1,6 @@
 class Comments {
-  final List<dynamic> comments;
+  final List<int> comments;
   Comments({
     required this.comments,
   });
-  
 }

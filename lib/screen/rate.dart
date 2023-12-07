@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import '../model/rate.dart';
 import '../services/rate_api.dart';
 
@@ -26,13 +25,13 @@ class _RateScreenState extends State<RateScreen> {
         title: const Text("Rest API Call"),
       ),
       body: ListView.builder(
-        itemCount: rates.length,  
+        itemCount: rates.length,
         itemBuilder: (context, index) {
           final rate = rates[index];
 
           return ListTile(
             title: Text(rate.id.toString()),
-            // subtitle: Text(rate.comments.toString()),
+            subtitle: Text(rate.comments.toString()),
           );
         },
       ),
