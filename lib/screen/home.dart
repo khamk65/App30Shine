@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical/model/service.dart';
+import 'package:medical/screen/end.dart';
 
 import '../model/user.dart';
 import '../services/user_api.dart';
@@ -13,7 +14,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<User> users = [];
-  late List<dynamic> data;
 
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Rest API Call"),
+        title: Center(child: Text("Dịch vụ đã sử dụng")),
       ),
       body: ListView.builder(
         itemCount: users.length,
@@ -34,30 +34,108 @@ class _HomeScreenState extends State<HomeScreen> {
           final id = user.id;
           final services = user.service;
 
-          // Tạo một danh sách các Widget ListTile từ danh sách services
-          List<Widget> serviceListTiles = services
-              .map((service) => ListTile(
-                    title: Text(service.name),
-                    subtitle: Text('Price: ${service.price}'),
-                  ))
-              .toList();
+          // Tạo danh sách các hàng của bảng
+          List<TableRow> tableRows = [];
+
+          // Tiêu đề của bảng
+          tableRows.add(
+            TableRow(
+              children: [
+                TableCell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Tên'),
+                  ),
+                ),
+                TableCell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Giá'),
+                  ),
+                ),
+              ],
+            ),
+          );
+
+          // Dữ liệu dịch vụ
+          for (Service service in services) {
+            tableRows.add(
+              TableRow(
+                children: [
+                  TableCell(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(service.name),
+                    ),
+                  ),
+                  TableCell(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('${service.price}'),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          // Tổng giá
+          int total =
+              services.map((service) => service.price).fold(0, (a, b) => a + b);
+          tableRows.add(
+            TableRow(
+              children: [
+                TableCell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Tổng'),
+                  ),
+                ),
+                TableCell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('$total'),
+                  ),
+                ),
+              ],
+            ),
+          );
+
+          // Tạo bảng từ danh sách các hàng
+          Widget serviceTable = Table(
+            border: TableBorder.all(),
+            children: tableRows,
+          );
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
-                title: Text(id),
-                subtitle: Text(''),
+                title: Text("Tên khách hàng: $id"),
               ),
-              // Hiển thị danh sách các dịch vụ
-              ...serviceListTiles,
+              // Hiển thị bảng dịch vụ
+              serviceTable,
             ],
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: fetchUsers,
-        hoverColor: Colors.black,
+      floatingActionButton: Align(
+        alignment: FractionalOffset.bottomCenter,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Thankpage()),
+              );
+            },
+            child: Text(
+              'Xác nhận đúng',
+              style: TextStyle(),
+            ),
+          ),
+        ),
       ),
     );
   }

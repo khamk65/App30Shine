@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:medical/screen/home.dart';
 
@@ -14,12 +13,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData( 
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  const HomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }
-
