@@ -1,4 +1,5 @@
 import 'package:appdanhgia/screen/PayCheck.dart';
+import 'package:appdanhgia/screen/home.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -234,9 +235,8 @@ void postToFirebase(List cmt, int selectedEmoji) async {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => PayCheck(
-              apiService:
-                  ApiService(apiUrl: 'https://fakestoreapi.com/products/1'))),
+          builder: (context) =>HomeScreen()
+                  ),
     );
   }
 

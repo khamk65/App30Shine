@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:appdanhgia/screen/EmotionScreen.dart';
+import 'package:appdanhgia/screen/rate.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: EmotionScreen(),
+      home: RateScreen(),
     );
   }
 }
@@ -92,4 +93,3 @@ class MyApp extends StatelessWidget {
     //     // Add code to send jsonData to your server or perform other actions.
     //   }
     // }
-

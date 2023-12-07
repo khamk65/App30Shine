@@ -73,7 +73,7 @@ class PayCheck extends StatelessWidget {
                     onPressed: () {
                      Navigator.push(
                       context,
-      MaterialPageRoute(builder: (context) =>EndScreen(apiService: ApiService(apiUrl: 'https://fakestoreapi.com/products/1')))
+      MaterialPageRoute(builder: (context) =>EndScreen())
       
                      );         
                     },
