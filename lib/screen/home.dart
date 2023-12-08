@@ -1,10 +1,10 @@
-import 'package:appdanhgia/screen/endScreen.dart';
+import 'package:appdanhgia/model/use.dart';
+import 'package:appdanhgia/screen/EndScreen.dart';
+import 'package:appdanhgia/services/use_api.dart';
 import 'package:flutter/material.dart';
 
-import '../aqiget.dart';
+
 import '../model/service.dart';
-import '../model/use.dart';
-import '../services/use_api.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -27,7 +27,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("Dịch vụ đã sử dụng")),
+        title: Center(
+          child: Text(
+            "Dịch vụ đã sử dụng",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        backgroundColor: Color.fromRGBO(60, 179, 113, 0.7),
       ),
       body: ListView.builder(
         itemCount: users.length,
@@ -46,13 +54,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 TableCell(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('Tên'),
+                    child: Text(
+                      'Tên',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
                 TableCell(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('Giá'),
+                    child: Text(
+                      'Giá',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -67,13 +87,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   TableCell(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(service.name),
+                      child: Text(
+                        service.name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                   TableCell(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('${service.price}'),
+                      child: Text(
+                        '${service.price}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -90,13 +120,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 TableCell(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('Tổng'),
+                    child: Text(
+                      'Tổng',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
                 TableCell(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('$total'),
+                    child: Text(
+                      '$total',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -113,7 +155,12 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
-                title: Text("Tên khách hàng: $id"),
+                title: Text(
+                  "Tên khách hàng: $id",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               // Hiển thị bảng dịch vụ
               serviceTable,
@@ -129,11 +176,19 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) =>  EndScreen()));
+                MaterialPageRoute(builder: (context) =>  EndScreen()),
+              );
             },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+            ),
             child: Text(
               'Xác nhận đúng',
-              style: TextStyle(),
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
           ),
         ),

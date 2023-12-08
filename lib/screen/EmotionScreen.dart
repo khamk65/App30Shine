@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../aqiget.dart';
 import 'package:database/database.dart';
+
 class EmotionScreen extends StatefulWidget {
   @override
   _EmotionScreenState createState() => _EmotionScreenState();
@@ -17,7 +18,6 @@ class _EmotionScreenState extends State<EmotionScreen> {
   bool isTapped2 = false;
   bool isTapped3 = false;
   bool isTapped4 = false;
- 
 
   int selectedEmotion = -1;
   String selectedComment = '';
@@ -25,25 +25,21 @@ class _EmotionScreenState extends State<EmotionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        Container(
-          height: 60,
-          color: Color.fromRGBO(0, 0, 0, 1),
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text("MỜI ANH ",
-                style: TextStyle(
-                    fontSize: 24, color: Color.fromRGBO(255, 255, 255, 1))),
-            Text(
-              "ĐÁNH GIÁ",
+      appBar: AppBar(
+          backgroundColor: Color.fromRGBO(66, 165, 245, 0.7),
+          title: Center(
+            child: Text(
+              'Mời bạn đánh giá',
               style: TextStyle(
-                  fontSize: 24, color: Color.fromRGBO(222, 238, 5, 1)),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            Text(" CHẤT LƯỢNG DỊCH VỤ",
-                style: TextStyle(
-                    fontSize: 24, color: Color.fromRGBO(255, 255, 255, 1)))
-          ]),
+          )),
+      body: Column(children: [
+        SizedBox(
+          height: 20,
         ),
-        SizedBox(height: 20,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -83,8 +79,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     isTapped4 = false;
                     if (isTapped2) {
                       selectedEmotion = 1;
-                    } 
-                    if(!isTapped2){
+                    }
+                    if (!isTapped2) {
                       selectedEmotion = -1;
                     }
                   });
@@ -155,6 +151,9 @@ class _EmotionScreenState extends State<EmotionScreen> {
                 ))
           ],
         ),
+        SizedBox(
+          height: 30,
+        ),
         Comment(
           selectedEmotion: selectedEmotion,
         ),
@@ -173,7 +172,7 @@ class Comment extends StatefulWidget {
 
 class _CommentState extends State<Comment> {
   List cmt = [];
-  List selectCmt = [false, false, false,false];
+  List selectCmt = [false, false, false, false];
 
   Future<void> postData(List cmt, int selectedEmoji) async {
     final apiUrl = 'https://kham1.free.beeceptor.com/todos/';
@@ -207,36 +206,35 @@ class _CommentState extends State<Comment> {
       print('Lỗi kết nối: $e');
     }
   }
-  int x=0; 
-void postToFirebase(List cmt, int selectedEmoji) async {
-  final databaseReference = FirebaseDatabase.instance.ref();
-   
-  
-   setState(() {
-    
-    x=x+1;
-  });
-  final String path = '$x' ; // Đường dẫn trong database, bạn có thể thay đổi tùy ý
 
-  try {
-    await databaseReference.child(path).push().set({
-      'comments':jsonEncode(cmt),
-      'selectedEmoji': selectedEmoji,
+  int x = 0;
+  void postToFirebase(List cmt, int selectedEmoji) async {
+    final databaseReference = FirebaseDatabase.instance.ref();
+
+    setState(() {
+      x = x + 1;
     });
+    final String path =
+        '$x'; // Đường dẫn trong database, bạn có thể thay đổi tùy ý
 
-    print('Dữ liệu đã được gửi thành công lên Firebase');
-  } catch (e) {
-    print('Lỗi khi gửi dữ liệu lên Firebase: $e');
+    try {
+      await databaseReference.child(path).push().set({
+        'comments': jsonEncode(cmt),
+        'selectedEmoji': selectedEmoji,
+      });
+
+      print('Dữ liệu đã được gửi thành công lên Firebase');
+    } catch (e) {
+      print('Lỗi khi gửi dữ liệu lên Firebase: $e');
+    }
   }
-}
+
   void _postApi() {
-     postToFirebase(cmt,widget.selectedEmotion);
+    postToFirebase(cmt, widget.selectedEmotion);
     postData(cmt, widget.selectedEmotion);
     Navigator.push(
       context,
-      MaterialPageRoute(
-          builder: (context) =>HomeScreen()
-                  ),
+      MaterialPageRoute(builder: (context) => HomeScreen()),
     );
   }
 
@@ -245,9 +243,8 @@ void postToFirebase(List cmt, int selectedEmoji) async {
       selectCmt = List.generate(
           emotions[widget.selectedEmotion]!.values.single.entries.length,
           (index) => false);
-          selectCmt = [false, false, false,false];
-    }
-    );
+      selectCmt = [false, false, false, false];
+    });
   }
 
   Map<int, Map<String, Map<int, String>>> emotions = {
@@ -264,7 +261,6 @@ void postToFirebase(List cmt, int selectedEmoji) async {
         0: 'Bảo vệ,nhân viên bình thường',
         1: 'Bác sĩ khám điều trị bình thường',
         2: 'Chi phí vừa phải',
- 
       },
     },
     2: {
@@ -272,7 +268,6 @@ void postToFirebase(List cmt, int selectedEmoji) async {
         0: 'Bảo vệ,nhân viên nhiệt tình',
         1: 'Bác sĩ khám điều trị tốt',
         2: 'Chăm sóc sau điều trị tốt',
-
       },
     },
     3: {
@@ -280,7 +275,6 @@ void postToFirebase(List cmt, int selectedEmoji) async {
         0: 'Bảo vệ,nhân viên rất nhiệt tình ',
         1: 'Bác sĩ khám điều trị rất tốt',
         2: 'Chăm sóc sau điều trị chu đáo',
-        
       }
     }
   };
@@ -293,28 +287,27 @@ void postToFirebase(List cmt, int selectedEmoji) async {
           children: [
             Container(
               height: 250,
-              child: 
-              ListView.builder(
-               
-                  itemCount:
-                   emotions[widget.selectedEmotion]
-                      ?.values
-                      .single
-                      
-                      .length,
-                  // ((emotions[widget.selectedEmotion]?.values.single.entries.length)!/3).ceil(),
-                  itemBuilder: (context, index) {
-                   final value = emotions[widget.selectedEmotion]?.values.single.values;
+              child: ListView.builder(
+                itemCount:
+                    emotions[widget.selectedEmotion]?.values.single.length,
+                itemBuilder: (context, index) {
+                  final value =
+                      emotions[widget.selectedEmotion]?.values.single.values;
 
-
-                    return ListTile(
-                      
+                  return Container(
+                    margin:
+                        EdgeInsets.only(bottom: 10), // Adjust the spacing here
+                    child: ListTile(
                       tileColor: selectCmt[index]
                           ? Colors.amberAccent
                           : const Color.fromARGB(255, 255, 255, 255),
                       title: Text(
-                       emotions[widget.selectedEmotion]!.values.single.values.elementAt(index)
-                          ),
+                        emotions[widget.selectedEmotion]!
+                            .values
+                            .single
+                            .values
+                            .elementAt(index),
+                      ),
                       trailing: selectCmt[index]
                           ? Icon(Icons.check, color: Colors.green)
                           : null,
@@ -322,7 +315,8 @@ void postToFirebase(List cmt, int selectedEmoji) async {
                           ? Colors.amberAccent
                           : const Color.fromARGB(255, 255, 255, 255),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       onTap: () {
                         setState(() {
                           if (widget.selectedEmotion == -1) {
@@ -336,7 +330,7 @@ void postToFirebase(List cmt, int selectedEmoji) async {
                           } else {
                             cmt.remove(index);
                           }
-print(index);
+                          print(index);
                           print(cmt);
                           print(widget.selectedEmotion);
                           print(
@@ -348,8 +342,10 @@ print(index);
                           );
                         });
                       },
-                    );
-                  }),
+                    ),
+                  );
+                },
+              ),
             ),
             SizedBox(
               height: 32,
