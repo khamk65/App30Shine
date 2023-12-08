@@ -10,7 +10,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 class ChartData {
   ChartData(this.x, this.y);
   final int x;
-  final double y;
+  final int y;
 }
 
 class RateScreen extends StatefulWidget {
@@ -232,10 +232,10 @@ class _RateScreenState extends State<RateScreen> {
 
   void _showSimpleDialog(BuildContext context, int tap) {
     final List<ChartData> chartData1 = [
-      ChartData(1, cmt[tap]?[0] as double),
-      ChartData(2, cmt[tap]?[1] as double),
-      ChartData(3, cmt[tap]?[2] as double),
-      ChartData(4, cmt[tap]?[3] as double),
+      ChartData(1, cmt[tap]?[0] as int ),
+      ChartData(2, cmt[tap]?[1] as int),
+      ChartData(3, cmt[tap]?[2] as int),
+      ChartData(4, cmt[tap]?[3] as int ),
     ];
     showDialog(
       context: context,
