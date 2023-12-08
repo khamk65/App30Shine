@@ -8,7 +8,7 @@ class RateApi {
   static Future<List<Rate>> fetchRate() async {
     print('fetchUsers called');
     const url =
-        'https://api.mockfly.dev/mocks/a909ef21-b26b-4c6e-a14f-cc724b00d162/rate';
+        'https://kham1.free.beeceptor.com/todos';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     final body = response.body;

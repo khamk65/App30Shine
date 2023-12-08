@@ -1,5 +1,6 @@
 import 'package:appdanhgia/screen/PayCheck.dart';
 import 'package:appdanhgia/screen/home.dart';
+import 'package:appdanhgia/screen/rate.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -281,92 +282,100 @@ class _CommentState extends State<Comment> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      if (widget.selectedEmotion != -1)
-        Column(
-          children: [
-            Container(
-              height: 250,
-              child: ListView.builder(
-                itemCount:
-                    emotions[widget.selectedEmotion]?.values.single.length,
-                itemBuilder: (context, index) {
-                  final value =
-                      emotions[widget.selectedEmotion]?.values.single.values;
+    return Column(
+      children: [
+        Stack(children: [
+          if (widget.selectedEmotion != -1)
+            Column(
+              children: [
+                Container(
+                  height: 250,
+                  child: ListView.builder(
+                    itemCount:
+                        emotions[widget.selectedEmotion]?.values.single.length,
+                    itemBuilder: (context, index) {
+                      final value =
+                          emotions[widget.selectedEmotion]?.values.single.values;
 
-                  return Container(
-                    margin:
-                        EdgeInsets.only(bottom: 10), // Adjust the spacing here
-                    child: ListTile(
-                      tileColor: selectCmt[index]
-                          ? Colors.amberAccent
-                          : const Color.fromARGB(255, 255, 255, 255),
-                      title: Text(
-                        emotions[widget.selectedEmotion]!
-                            .values
-                            .single
-                            .values
-                            .elementAt(index),
-                      ),
-                      trailing: selectCmt[index]
-                          ? Icon(Icons.check, color: Colors.green)
-                          : null,
-                      iconColor: !selectCmt[index]
-                          ? Colors.amberAccent
-                          : const Color.fromARGB(255, 255, 255, 255),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      onTap: () {
-                        setState(() {
-                          if (widget.selectedEmotion == -1) {
-                            cmt.clear();
-                            resetSelection();
-                          }
-
-                          selectCmt[index] = !selectCmt[index];
-                          if (selectCmt[index] && !cmt.contains(index)) {
-                            cmt.add(index);
-                          } else {
-                            cmt.remove(index);
-                          }
-                          print(index);
-                          print(cmt);
-                          print(widget.selectedEmotion);
-                          print(
-                            emotions[widget.selectedEmotion]
-                                ?.values
+                      return Container(
+                        margin:
+                            EdgeInsets.only(bottom: 10), // Adjust the spacing here
+                        child: ListTile(
+                          tileColor: selectCmt[index]
+                              ? Colors.amberAccent
+                              : const Color.fromARGB(255, 255, 255, 255),
+                          title: Text(
+                            emotions[widget.selectedEmotion]!
+                                .values
                                 .single
-                                .entries
-                                .length,
-                          );
-                        });
-                      },
-                    ),
-                  );
-                },
-              ),
+                                .values
+                                .elementAt(index),
+                          ),
+                          trailing: selectCmt[index]
+                              ? Icon(Icons.check, color: Colors.green)
+                              : null,
+                          iconColor: !selectCmt[index]
+                              ? Colors.amberAccent
+                              : const Color.fromARGB(255, 255, 255, 255),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              if (widget.selectedEmotion == -1) {
+                                cmt.clear();
+                                resetSelection();
+                              }
+
+                              selectCmt[index] = !selectCmt[index];
+                              if (selectCmt[index] && !cmt.contains(index)) {
+                                cmt.add(index);
+                              } else {
+                                cmt.remove(index);
+                              }
+                              print(index);
+                              print(cmt);
+                              print(widget.selectedEmotion);
+                              print(
+                                emotions[widget.selectedEmotion]
+                                    ?.values
+                                    .single
+                                    .entries
+                                    .length,
+                              );
+                            });
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 32,
+                ),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        padding: EdgeInsets.all(20),
+                        backgroundColor: Color.fromRGBO(60, 179, 6, 1)),
+                    onPressed: _postApi,
+                    child: Text("SANG BƯỚC XÁC NHẬN GIÁ",
+                        style: TextStyle(
+                            color: Color.fromRGBO(255, 255, 255, 1),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20)))
+              ],
             ),
-            SizedBox(
-              height: 32,
-            ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    padding: EdgeInsets.all(20),
-                    backgroundColor: Color.fromRGBO(60, 179, 6, 1)),
-                onPressed: _postApi,
-                child: Text("SANG BƯỚC XÁC NHẬN GIÁ",
-                    style: TextStyle(
-                        color: Color.fromRGBO(255, 255, 255, 1),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20)))
-          ],
-        ),
-      if (widget.selectedEmotion == -1) ManHinhcho()
-    ]);
+          if (widget.selectedEmotion == -1) ManHinhcho()
+        ]),
+        ElevatedButton(onPressed: _navigator, child: Text("Chuyển sang trang đánh giá trung bình"))
+      ],
+    );
+  }
+  void _navigator(){
+Navigator.push(context,MaterialPageRoute(builder: (context)=>RateScreen()));
   }
 }
 
@@ -375,9 +384,15 @@ class ManHinhcho extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 400,
-      child: Image.asset('assets/images/pk.jpg'),
+    return Column(
+      children: [
+        Container(
+          height: 400,
+          child: Image.asset('assets/images/pk.jpg'),
+        ),
+        
+      ],
     );
   }
+
 }
