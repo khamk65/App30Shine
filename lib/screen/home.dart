@@ -3,9 +3,7 @@ import 'package:appdanhgia/screen/EndScreen.dart';
 import 'package:appdanhgia/services/use_api.dart';
 import 'package:flutter/material.dart';
 
-
 import '../model/service.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -43,6 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
           final user = users[index];
           final id = user.id;
           final services = user.service;
+          final name = user.name;
+          final time = user.time;
 
           // Tạo danh sách các hàng của bảng
           List<TableRow> tableRows = [];
@@ -56,6 +56,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'Tên',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Số lượng',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -99,7 +111,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        '${service.price}',
+                        '${service.much}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  TableCell(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '${service.price}.000',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -114,6 +137,8 @@ class _HomeScreenState extends State<HomeScreen> {
           // Tổng giá
           int total =
               services.map((service) => service.price).fold(0, (a, b) => a + b);
+          int list =
+              services.map((service) => service.much).fold(0, (a, b) => a + b);
           tableRows.add(
             TableRow(
               children: [
@@ -133,7 +158,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      '$total',
+                      '$list',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      '${total}.000',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -155,11 +192,27 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
-                title: Text(
-                  "Tên khách hàng: $id",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+                title: Column(
+                  children: [
+                    Text(
+                      "Tên khách hàng: $name",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "Mã đợt khám: $id",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "Thời gian khám: $time",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ],
                 ),
               ),
               // Hiển thị bảng dịch vụ
@@ -176,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) =>  EndScreen()),
+                MaterialPageRoute(builder: (context) => EndScreen()),
               );
             },
             style: ElevatedButton.styleFrom(
