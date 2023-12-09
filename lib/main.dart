@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:appdanhgia/screen/EmotionScreen.dart';
 import 'package:appdanhgia/screen/EndScreen.dart';
+import 'package:appdanhgia/screen/home.dart';
 import 'package:appdanhgia/screen/rate.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: EndScreen(),
+      home: HomeScreen(),
     );
   }
 }

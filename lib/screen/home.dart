@@ -6,7 +6,6 @@ import '../model/service.dart';
 import '../model/use.dart';
 import '../services/use_api.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -35,6 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
           final user = users[index];
           final id = user.id;
           final services = user.service;
+          final name = user.name;
+          final time = user.time;
 
           // Tạo danh sách các hàng của bảng
           List<TableRow> tableRows = [];
@@ -113,7 +114,12 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
-                title: Text("Tên khách hàng: $id"),
+                title: Column(
+                  children: [
+                    Text("Tên khách hàng: $name"),
+                  ],
+                ),
+                
               ),
               // Hiển thị bảng dịch vụ
               serviceTable,
@@ -127,9 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) =>  EndScreen()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => EndScreen()));
             },
             child: Text(
               'Xác nhận đúng',
