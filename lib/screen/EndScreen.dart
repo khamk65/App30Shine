@@ -36,7 +36,16 @@ class EndScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 20),
-              ElevatedButton(
+              ElevatedButton(style: ButtonStyle( backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+            // Xác định màu sắc dựa trên trạng thái của nút
+            if (states.contains(MaterialState.pressed)) {
+              // Trạng thái khi nút được nhấn
+              return Colors.red;
+            } else {
+              // Trạng thái mặc 
+              return Color.fromRGBO(47, 179, 178, 0.8);
+            }})),
                 onPressed: () {
                   Navigator.pop(context);
                 },

@@ -25,7 +25,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        
         title: Center(
+          
           child: Text(
             "Dịch vụ đã sử dụng",
             style: TextStyle(
@@ -33,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        backgroundColor: Color.fromRGBO(60, 179, 113, 0.7),
+        backgroundColor: Color.fromRGBO(47, 179, 178, 0.8),
       ),
       body: ListView.builder(
         itemCount: users.length,
@@ -232,15 +234,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 MaterialPageRoute(builder: (context) => EndScreen()),
               );
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-            ),
+            style: ButtonStyle( backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+            // Xác định màu sắc dựa trên trạng thái của nút
+            if (states.contains(MaterialState.pressed)) {
+              // Trạng thái khi nút được nhấn
+              return Colors.red;
+            } else {
+              // Trạng thái mặc 
+              return Color.fromRGBO(47, 179, 178, 0.8);
+            }})),
             child: Text(
               'Xác nhận đúng',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: const Color.fromARGB(255, 255, 255, 255),
               ),
             ),
           ),

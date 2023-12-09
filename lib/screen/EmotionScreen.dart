@@ -1,13 +1,17 @@
-import 'package:appdanhgia/screen/PayCheck.dart';
-import 'package:appdanhgia/screen/home.dart';
-import 'package:appdanhgia/screen/rate.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
+import 'package:database/database.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
+
+import 'package:appdanhgia/screen/PayCheck.dart';
+import 'package:appdanhgia/screen/home.dart';
+import 'package:appdanhgia/screen/rate.dart';
+
 import '../aqiget.dart';
-import 'package:database/database.dart';
 
 class EmotionScreen extends StatefulWidget {
   @override
@@ -15,6 +19,8 @@ class EmotionScreen extends StatefulWidget {
 }
 
 class _EmotionScreenState extends State<EmotionScreen> {
+   List selectCmt = [false, false, false, false];
+    List<bool> resetSelectCmt = [false, false, false, false];
   bool isTapped1 = false;
   bool isTapped2 = false;
   bool isTapped3 = false;
@@ -27,7 +33,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color.fromRGBO(66, 165, 245, 0.7),
+          backgroundColor: Color.fromRGBO(47, 179, 178, 0.8),
           title: Center(
             child: Text(
               'Mời bạn đánh giá',
@@ -53,6 +59,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     isTapped4 = false;
                     if (isTapped1) {
                       selectedEmotion = 0;
+               List selectCmt = [false, false, false, false];
                     } else {
                       selectedEmotion = -1;
                     }
@@ -80,6 +87,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     isTapped4 = false;
                     if (isTapped2) {
                       selectedEmotion = 1;
+                    List selectCmt = [false, false, false, false];
                     }
                     if (!isTapped2) {
                       selectedEmotion = -1;
@@ -107,6 +115,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     isTapped4 = false;
                     if (isTapped3) {
                       selectedEmotion = 2;
+             List selectCmt = [false, false, false, false];
                     } else {
                       selectedEmotion = -1;
                     }
@@ -133,10 +142,12 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     isTapped1 = false;
                     if (isTapped4) {
                       selectedEmotion = 3;
+                  List selectCmt = [false, false, false, false];
                     } else {
                       selectedEmotion = -1;
                     }
                   });
+                  
                 },
                 child: Column(
                   children: [
@@ -157,6 +168,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
         ),
         Comment(
           selectedEmotion: selectedEmotion,
+          selec: selectCmt,
         ),
       ]),
     );
@@ -165,13 +177,19 @@ class _EmotionScreenState extends State<EmotionScreen> {
 
 class Comment extends StatefulWidget {
   final int selectedEmotion;
-  Comment({Key? key, required this.selectedEmotion}) : super(key: key);
+  List selec;
+  Comment({
+    Key? key,
+    required this.selectedEmotion,
+    required this.selec,
+  }) : super(key: key);
 
   @override
   State<Comment> createState() => _CommentState();
 }
 
 class _CommentState extends State<Comment> {
+  int a=0;
   List cmt = [];
   List selectCmt = [false, false, false, false];
 
@@ -231,6 +249,7 @@ class _CommentState extends State<Comment> {
   }
 
   void _postApi() {
+    resetSelection();
     postToFirebase(cmt, widget.selectedEmotion);
     postData(cmt, widget.selectedEmotion);
     Navigator.push(
@@ -245,6 +264,7 @@ class _CommentState extends State<Comment> {
           emotions[widget.selectedEmotion]!.values.single.entries.length,
           (index) => false);
       selectCmt = [false, false, false, false];
+      widget.selec=[false, false, false, false];
     });
   }
 
@@ -296,12 +316,12 @@ class _CommentState extends State<Comment> {
                     itemBuilder: (context, index) {
                       final value =
                           emotions[widget.selectedEmotion]?.values.single.values;
-
+print(widget.selec);
                       return Container(
                         margin:
                             EdgeInsets.only(bottom: 10), // Adjust the spacing here
                         child: ListTile(
-                          tileColor: selectCmt[index]
+                          tileColor: widget.selec[index]
                               ? Colors.amberAccent
                               : const Color.fromARGB(255, 255, 255, 255),
                           title: Text(
@@ -326,8 +346,12 @@ class _CommentState extends State<Comment> {
                                 cmt.clear();
                                 resetSelection();
                               }
+if(a!=widget.selectedEmotion){
+  resetSelection();
+  a=widget.selectedEmotion;
+}
 
-                              selectCmt[index] = !selectCmt[index];
+                              widget.selec[index] = !widget.selec[index];
                               if (selectCmt[index] && !cmt.contains(index)) {
                                 cmt.add(index);
                               } else {
@@ -359,7 +383,7 @@ class _CommentState extends State<Comment> {
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                         padding: EdgeInsets.all(20),
-                        backgroundColor: Color.fromRGBO(60, 179, 6, 1)),
+                        backgroundColor: Color.fromRGBO(47, 179, 178, 0.8)),
                     onPressed: _postApi,
                     child: Text("SANG BƯỚC XÁC NHẬN GIÁ",
                         style: TextStyle(
@@ -370,7 +394,17 @@ class _CommentState extends State<Comment> {
             ),
           if (widget.selectedEmotion == -1) ManHinhcho()
         ]),
-        ElevatedButton(onPressed: _navigator, child: Text("Chuyển sang trang đánh giá trung bình"))
+        SizedBox(height:30),
+        ElevatedButton(style: ButtonStyle( backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+            // Xác định màu sắc dựa trên trạng thái của nút
+            if (states.contains(MaterialState.pressed)) {
+              // Trạng thái khi nút được nhấn
+              return Colors.red;
+            } else {
+              // Trạng thái mặc 
+              return Color.fromRGBO(47, 179, 178, 0.8);
+            }})),onPressed: _navigator, child: Text("Chuyển sang trang đánh giá trung bình"))
       ],
     );
   }

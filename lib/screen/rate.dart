@@ -77,7 +77,7 @@ class _RateScreenState extends State<RateScreen> {
     // Fetch data immediately
     fetchData();
     // Schedule fetching data every 30 seconds (adjust as needed)
-    Timer.periodic(Duration(seconds: 30), (Timer timer) {
+    Timer.periodic(Duration(seconds: 300), (Timer timer) {
       fetchData();
     });
   }
@@ -122,6 +122,7 @@ class _RateScreenState extends State<RateScreen> {
 
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Color.fromRGBO(47, 179, 178, 0.8),
           title: Text('Đánh giá trung bình'),
         ),
         body: Column(children: [
@@ -255,7 +256,16 @@ class _RateScreenState extends State<RateScreen> {
           SizedBox(
             height: 40,
           ),
-          ElevatedButton(
+          ElevatedButton(style: ButtonStyle( backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+            // Xác định màu sắc dựa trên trạng thái của nút
+            if (states.contains(MaterialState.pressed)) {
+              // Trạng thái khi nút được nhấn
+              return Colors.red;
+            } else {
+              // Trạng thái mặc 
+              return Color.fromRGBO(47, 179, 178, 0.8);
+            }})),
               onPressed: _navigator, child: Text("Chuyển sang trang đánh giá"))
         ]));
   }

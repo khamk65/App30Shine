@@ -75,7 +75,7 @@ class _commentState extends State<comment> {
     // Fetch data immediately
     fetchData();
     // Schedule fetching data every 30 seconds (adjust as needed)
-    Timer.periodic(Duration(seconds: 30), (Timer timer) {
+    Timer.periodic(Duration(seconds: 3000), (Timer timer) {
       fetchData();
     });
   }
@@ -123,6 +123,7 @@ class _commentState extends State<comment> {
 
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Color.fromRGBO(47, 179, 178, 0.8),
           title: Text('Đánh giá trung bình'),
         ),
         body: Column(
