@@ -124,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        '${service.price}.000',
+                        '${(service.price/1000).round()}00.000',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -172,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      '${total}.000',
+                      '${(total/10000).round()}.000.000',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

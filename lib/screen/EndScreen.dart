@@ -1,6 +1,34 @@
+import 'dart:async';
+
+import 'package:appdanhgia/main.dart';
+import 'package:appdanhgia/screen/EmotionScreen.dart';
 import 'package:flutter/material.dart';
 
-class EndScreen extends StatelessWidget {
+class EndScreen extends StatefulWidget {
+  @override
+  State<EndScreen> createState() => _EndScreenState();
+}
+
+class _EndScreenState extends State<EndScreen> {
+ @override
+  void initState() {
+super.initState();
+    // Gọi hàm tự động chuyển trang sau 3 giây
+    _navigateAfterDelay();
+  }
+
+  // Hàm chuyển trang sau khoảng thời gian trễ
+  void _navigateAfterDelay() {
+    const delay = Duration(seconds: 3);
+    Timer(delay, () {
+      // Thực hiện chuyển trang ở đây
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => SplashScreen()),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,4 +90,8 @@ class EndScreen extends StatelessWidget {
       ),
     );
   }
+
+void navigator(){
+  
+}
 }

@@ -20,7 +20,7 @@ class EmotionScreen extends StatefulWidget {
 
 class _EmotionScreenState extends State<EmotionScreen> {
    List selectCmt = [false, false, false, false];
-    List<bool> resetSelectCmt = [false, false, false, false];
+   List cmt=[];
   bool isTapped1 = false;
   bool isTapped2 = false;
   bool isTapped3 = false;
@@ -59,7 +59,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     isTapped4 = false;
                     if (isTapped1) {
                       selectedEmotion = 0;
-               List selectCmt = [false, false, false, false];
+             selectCmt = [false, false, false, false];
+             cmt=[];
                     } else {
                       selectedEmotion = -1;
                     }
@@ -87,7 +88,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     isTapped4 = false;
                     if (isTapped2) {
                       selectedEmotion = 1;
-                    List selectCmt = [false, false, false, false];
+                     selectCmt = [false, false, false, false];
+                     cmt=[];
                     }
                     if (!isTapped2) {
                       selectedEmotion = -1;
@@ -115,7 +117,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     isTapped4 = false;
                     if (isTapped3) {
                       selectedEmotion = 2;
-             List selectCmt = [false, false, false, false];
+          selectCmt = [false, false, false, false];
+          cmt=[];
                     } else {
                       selectedEmotion = -1;
                     }
@@ -142,7 +145,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     isTapped1 = false;
                     if (isTapped4) {
                       selectedEmotion = 3;
-                  List selectCmt = [false, false, false, false];
+                      cmt=[];
+                   selectCmt = [false, false, false, false];
                     } else {
                       selectedEmotion = -1;
                     }
@@ -168,7 +172,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
         ),
         Comment(
           selectedEmotion: selectedEmotion,
-          selec: selectCmt,
+          selec: selectCmt, resetCmt: cmt,
         ),
       ]),
     );
@@ -177,10 +181,12 @@ class _EmotionScreenState extends State<EmotionScreen> {
 
 class Comment extends StatefulWidget {
   final int selectedEmotion;
+  List resetCmt;
   List selec;
   Comment({
     Key? key,
     required this.selectedEmotion,
+    required this.resetCmt,
     required this.selec,
   }) : super(key: key);
 
@@ -189,12 +195,10 @@ class Comment extends StatefulWidget {
 }
 
 class _CommentState extends State<Comment> {
-  int a=0;
-  List cmt = [];
-  List selectCmt = [false, false, false, false];
+
 
   Future<void> postData(List cmt, int selectedEmoji) async {
-    final apiUrl = 'https://kham1.free.beeceptor.com/todos/';
+    final apiUrl = 'https://api.mockfly.dev/mocks/1b1eb603-acdd-4440-aec4-21f4ed51e9b0/kham5';
 
     // Tạo body request từ danh sách comment và emoji được chọn
     final Map<String, dynamic> requestBody = {
@@ -249,24 +253,16 @@ class _CommentState extends State<Comment> {
   }
 
   void _postApi() {
-    resetSelection();
-    postToFirebase(cmt, widget.selectedEmotion);
-    postData(cmt, widget.selectedEmotion);
+  
+    postToFirebase(widget.resetCmt, widget.selectedEmotion);
+    postData(widget.resetCmt, widget.selectedEmotion);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => HomeScreen()),
     );
   }
 
-  void resetSelection() {
-    setState(() {
-      selectCmt = List.generate(
-          emotions[widget.selectedEmotion]!.values.single.entries.length,
-          (index) => false);
-      selectCmt = [false, false, false, false];
-      widget.selec=[false, false, false, false];
-    });
-  }
+
 
   Map<int, Map<String, Map<int, String>>> emotions = {
     0: {
@@ -331,10 +327,10 @@ print(widget.selec);
                                 .values
                                 .elementAt(index),
                           ),
-                          trailing: selectCmt[index]
+                          trailing: widget.selec[index]
                               ? Icon(Icons.check, color: Colors.green)
                               : null,
-                          iconColor: !selectCmt[index]
+                          iconColor: !widget.selec[index]
                               ? Colors.amberAccent
                               : const Color.fromARGB(255, 255, 255, 255),
                           shape: RoundedRectangleBorder(
@@ -342,23 +338,15 @@ print(widget.selec);
                           ),
                           onTap: () {
                             setState(() {
-                              if (widget.selectedEmotion == -1) {
-                                cmt.clear();
-                                resetSelection();
-                              }
-if(a!=widget.selectedEmotion){
-  resetSelection();
-  a=widget.selectedEmotion;
-}
+                            
 
+print(widget.resetCmt);
                               widget.selec[index] = !widget.selec[index];
-                              if (selectCmt[index] && !cmt.contains(index)) {
-                                cmt.add(index);
-                              } else {
-                                cmt.remove(index);
-                              }
+                              if (widget.selec[index] && !widget.resetCmt.contains(index)) {
+                                widget.resetCmt.add(index);
+                              } 
                               print(index);
-                              print(cmt);
+                              print(widget.resetCmt);
                               print(widget.selectedEmotion);
                               print(
                                 emotions[widget.selectedEmotion]
@@ -389,7 +377,9 @@ if(a!=widget.selectedEmotion){
                         style: TextStyle(
                             color: Color.fromRGBO(255, 255, 255, 1),
                             fontWeight: FontWeight.w600,
-                            fontSize: 20)))
+                            fontSize: 20)
+                            )
+                            )
               ],
             ),
           if (widget.selectedEmotion == -1) ManHinhcho()
